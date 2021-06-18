@@ -1,0 +1,95 @@
+<!doctype html>
+
+<title>{% block title %}Welcome{% endblock %} | 로그인</title>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+
+{% block body %}
+  <div class="container">
+    <form action="" method=post>
+        <ul>
+          <li>
+            <div class="title">코인</div>
+            <div class="coin_select">
+              <select name="coinname" id="coin_id">
+                  <option value="BTC" selected>BTC</option>
+                  <option value="ETH">ETH</option>
+                  <option value="LTC">LTC</option>
+                  <option value="ETC">ETC</option>
+                  <option value="XRP">XRP</option>
+              </select>
+            </div>
+          </li>
+          <li>
+            <div class="title">보내는 거래소</div>
+            <div class="exchange">
+              <select name="exchange_from" id="exchange_id">
+                  <option value="bithum">bithum</option>
+                  <option value="coinone">coinone</option>
+                  <option value="cobit">cobit</option>
+                  <option value="poloniex">poloniex</option>
+                  <option value="bitfinex">bitfinex</option>
+                  <option value="bitrex">bitrex</option>
+                  <option value="okcoin">okcoin</option>
+              </select>
+            </div>
+          </li>
+          <li>
+            <div class="title">출금 금액</div>
+            <div class="coin_withdrawl">
+              <input type=number name=coins size=24 value="{{ request.form.coins }}">
+              <span id="coin_selected">BTC</span>
+              <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+              <script>
+              $(function(){
+                $('#coin_id').change(function(){
+                  coin_na=$('#coin_id option:selected').text()
+                  $("#coin_selected").html(coin_na);
+                });
+              });
+              </script>
+           </div>
+          </li>
+          <li>
+            <div class="title">받는 거래소</div>
+            <div class="exchange">
+              <select name="exchange_to" id="exchange_id">
+                  <option value="bithum">bithum</option>
+                  <option value="coinone">coinone</option>
+                  <option value="cobit">cobit</option>
+                  <option value="poloniex">poloniex</option>
+                  <option value="bitfinex">bitfinex</option>
+                  <option value="bitrex">bitrex</option>
+                  <option value="okcoin">okcoin</option>
+              </select>
+            </div>
+          </li>
+          <li>
+            <div class="title">입금 금액</div>
+            <div class="coin_diposit">
+              <span id="deposit_amount">{% set deposit = deposit %}{{ deposit }}</span>
+              <span id="aa">KRW</span>
+            </div>
+          </li>
+          <li>
+            <div class="title">차익</div>
+            <div class="margin">
+              <span id="margin_amount">{% set margin = margin %}{{ margin }}</span>
+              <span id="b">KRW</span>
+            </div>
+          </li>
+          <li>
+            <input id="submit" type="submit" value="계산하기">
+          </li>
+        </ul>
+      </form>
+    </div>
+    <div class=list>
+        <table id=calculator_list border = "0.5">
+            <tr>
+                <td></td>
+            
+            
+            
+            </tr>
+            
+{% endblock %}

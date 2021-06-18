@@ -1,0 +1,160 @@
+<!doctype html>
+
+<title>{% block title %}Welcome{% endblock %} | 로그인</title>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style2.css') }}">
+
+{% block body %}
+  <div class="frame">
+    <div class="introduce" id="introduce">
+      <a href="#layer1" class="btn-example">소개</a>
+    </div>
+    <div class="pop_container" id="pop" style="display:none;">
+      <div class="pop_contents">
+        <p>
+          거래소간 차익 계산기입니다.<br>
+          보내는 거래소와 받는 거래소의 실시간 시세와 환율을 모두 고려한 계산기입니다.
+          단, 거래소 간 코인 전송시 블록 생성시간 및 승인시간이 고려되어야 한다는 점 유의하시기 바랍니다.<br>
+          (계산결과인 차익에 해당 내용이 고려되어있지 않습니다.)<br>
+          현재는 무료버전이나, 3개월안으로 더 나은 서비스로 유료버전을 출시할까 고려중입니다.
+          원하는 기능, 추가 기능, 가격대를 생각하시면 아래 메일주소로 소중한 의견 보내주시면 감사하겠습니다.
+          저희 '차익 계산기'가 유용하다고 생각되신다면
+          개발자분에게 격려의 메일을 보내주시면 대단히 감사하겠습니다.<br>
+        </p>
+      </div>
+      <div>
+        <div class="close" id="close">close  </div>
+      </div>
+    </div>
+    <div class="container">
+      <form action="" method=post id ="form">
+          <ul>
+            <li>
+              <div class="title">코인</div>
+              <div class="coin_select">
+                <select name="coinname" id="coin_id">
+                    <option value="BTC" {% if coin_name =="BTC" %} selected {% endif %} >BTC</option>
+                    <option value="ETH" {% if coin_name =="ETH" %} selected {% endif %} >ETH</option>
+                    <option value="LTC" {% if coin_name =="LTC" %} selected {% endif %} >LTC</option>
+                    <option value="ETC" {% if coin_name =="ETC" %} selected {% endif %} >ETC</option>
+                    <option value="XRP" {% if coin_name =="XRP" %} selected {% endif %} >XRP</option>
+                </select>
+              </div>
+            </li>
+            <li>
+              <div class="title">보내는 거래소</div>
+              <div class="exchange">
+                <select name="exchange_from" id="exchange_from_id">
+                    <option value="bithum" {% if exchange_from =="bithum" %} selected {% endif %} >bithum</option>
+                    <option value="coinone" {% if exchange_from =="coinone" %} selected {% endif %} >coinone</option>
+                    <option value="korbit" {% if exchange_from =="korbit" %} selected {% endif %} >korbit</option>
+                    <option value="poloniex" {% if exchange_from =="poloniex" %} selected {% endif %} >poloniex</option>
+                    <option value="bitfinex" {% if exchange_from =="bitfinex" %} selected {% endif %} >bitfinex</option>
+                    <option value="bitTrex" {% if exchange_from =="bitTrex" %} selected {% endif %} >bitTrex</option>
+                </select>
+              </div>
+            </li>
+            <li>
+              <div class="title">출금 금액</div>
+              <div class="coin_withdrawl">
+                <input type=number step=any name=coins size=24 id="withdrawl_coin">
+                <span id="coin_selected">BTC</span>
+                <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+              <script>
+              $(function(){
+                $('#coin_id').change(function(){
+                  coin_na=$('#coin_id option:selected').text()
+                  $("#coin_selected").html(coin_na);
+                });
+              });
+              </script>
+                <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+                <script type="text/javascript">
+                $('#form').submit(function() {
+                    if($('#withdrawl_coin').val() == ''){
+                        alert('출금금액을 입력하세요');
+                        return false;
+                    }
+                });
+                </script>
+              </div>
+            </li>
+            <li>
+              <div class="title">받는 거래소</div>
+              <div class="exchange">
+                <select name="exchange_to" id="exchange_to_id">
+                    <option value="bithum" {% if exchange_to =="bithum" %} selected {% endif %} >bithum</option>
+                    <option value="coinone" {% if exchange_to =="coinone" %} selected {% endif %} >coinone</option>
+                    <option value="korbit" {% if exchange_to =="korbit" %} selected {% endif %} >korbit</option>
+                    <option value="poloniex" {% if exchange_to =="poloniex" %} selected {% endif %} >poloniex</option>
+                    <option value="bitfinex" {% if exchange_to =="bitfinex" %} selected {% endif %} >bitfinex</option>
+                    <option value="bitTrex" {% if exchange_to =="bitTrex" %} selected {% endif %} >bitTrex</option>
+                </select>
+              </div>
+            </li>
+            <li>
+              <div class="title">입금 금액</div>
+              <div class="coin_diposit">
+                <span id="deposit_amount">{% set deposit = deposit %}{{ deposit }}</span>
+                <span id="aa">KRW</span>
+              </div>
+            </li>
+            <li>
+              <div class="title">차익</div>
+              <div class="margin">
+                <span id="margin_amount">{% set margin = margin %}{{ margin }}</span>
+                <span id="b">KRW</span>
+              </div>
+            </li>
+            <li>
+              <input id="submit" type="submit" value="계산하기">
+            </li>
+          </ul>
+        </form>
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type="text/javascript">
+            $('#form').submit(function() {
+                if($('#coin_id').val() == 'LTC' && $('#exchange_from_id').val() == 'coinone'){
+                    alert('해당거래소에서 LTC을 지원하지 않습니다.');
+                    return false;
+                }
+            });
+        </script>
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type="text/javascript">
+            $('#form').submit(function() {
+                if($('#coin_id').val() == 'LTC' && $('#exchange_to_id').val() == 'coinone'){
+                    alert('해당거래소에서 LTC을 지원하지 않습니다.');
+                    return false;
+                }
+            });
+        </script>
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type="text/javascript">
+            $('#form').submit(function() {
+                if($('#coin_id').val() == 'LTC' && $('#exchange_from_id').val() == 'korbit'){
+                    alert('해당거래소 API에서 LTC을 지원하지 않습니다.');
+                    return false;
+                }
+            });
+        </script>
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type="text/javascript">
+            $('#form').submit(function() {
+                if($('#coin_id').val() == 'LTC' && $('#exchange_to_id').val() == 'korbit'){
+                    alert('해당거래소 API에서 LTC을 지원하지 않습니다.');
+                    return false;
+                }
+            });
+        </script>
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type="text/javascript">
+            $('#introduce a').click(function() {
+              $('#pop').show();
+            });
+            $('#close').click(function() {
+              $('#pop').hide();
+            });
+        </script>
+      </div>
+
+{% endblock %}

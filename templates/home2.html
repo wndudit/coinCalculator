@@ -1,0 +1,15 @@
+<!doctype html>
+
+
+<title>{% block title %}Welcome{% endblock %} | lottoApple</title>
+
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style2.css') }}">
+
+<div class=page>
+  {% if not session.logged_in %}
+    <a href="{{ url_for('lay2') }}">log in</a>
+  {% else %}
+    <a href="{{ url_for('lay3') }}">log out</a>
+  {% endif %}
+  </div>
+</div>

@@ -1,0 +1,151 @@
+<!doctype html>
+
+<title>{% block title %}Welcome{% endblock %} | 로그인</title>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style2.css') }}">
+
+{% block body %}
+  <div class="frame">
+    <div class="container">
+      <form action="" method=post id ="form">
+          <ul>
+            <li>
+              <div class="title">코인</div>
+              <div class="coin_select">
+                <select name="coinname" id="coin_id">
+                    <option value="BTC" {% if coin_name =="BTC" %} selected {% endif %} >BTC</option>
+                    <option value="ETH" {% if coin_name =="ETH" %} selected {% endif %} >ETH</option>
+                    <option value="LTC" {% if coin_name =="LTC" %} selected {% endif %} >LTC</option>
+                    <option value="ETC" {% if coin_name =="ETC" %} selected {% endif %} >ETC</option>
+                    <option value="XRP" {% if coin_name =="XRP" %} selected {% endif %} >XRP</option>
+                </select>
+              </div>
+            </li>
+            <li>
+              <div class="title">보내는 거래소</div>
+              <div class="exchange">
+                <select name="exchange_from" id="exchange_from_id">
+                    <option value="bithum">bithum</option>
+                    <option value="coinone">coinone</option>
+                    <option value="korbit">korbit</option>
+                    <option value="poloniex">poloniex</option>
+                    <option value="bitfinex">bitfinex</option>
+                    <option value="bitTrex">bitTrex</option>
+                </select>
+              </div>
+            </li>
+            <li>
+              <div class="title">출금 금액</div>
+              <div class="coin_withdrawl">
+                <input type=number step=any name=coins size=24 id="withdrawl_coin">
+                <span id="coin_selected">BTC</span>
+                <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+              <script>
+              $(function(){
+                $('#coin_id').change(function(){
+                  coin_na=$('#coin_id option:selected').text()
+                  $("#coin_selected").html(coin_na);
+                });
+              });
+              </script>
+                <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+                <script type="text/javascript">
+                $('#form').submit(function() {
+                    if($('#withdrawl_coin').val() == ''){
+                        alert('출금금액을 입력하세요');
+                        return false;
+                    }
+                });
+                </script>
+              </div>
+            </li>
+            <li>
+              <div class="title">받는 거래소</div>
+              <div class="exchange">
+                <select name="exchange_to" id="exchange_to_id">
+                    <option value="bithum">bithum</option>
+                    <option value="coinone">coinone</option>
+                    <option value="korbit">korbit</option>
+                    <option value="poloniex">poloniex</option>
+                    <option value="bitfinex">bitfinex</option>
+                    <option value="bitTrex">bitTrex</option>
+                </select>
+              </div>
+            </li>
+            <li>
+              <div class="title">입금 금액</div>
+              <div class="coin_diposit">
+                <span id="deposit_amount">{% set deposit = deposit %}{{ deposit }}</span>
+                <span id="aa">KRW</span>
+              </div>
+            </li>
+            <li>
+              <div class="title">차익</div>
+              <div class="margin">
+                <span id="margin_amount">{% set margin = margin %}{{ margin }}</span>
+                <span id="b">KRW</span>
+              </div>
+            </li>
+            <li>
+              <input id="submit" type="submit" value="계산하기">
+            </li>
+          </ul>
+        </form>
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type="text/javascript">
+            $('#form').submit(function() {
+                if($('#coin_id').val() == 'LTC' && $('#exchange_from_id').val() == 'coinone'){
+                    alert('해당거래소에서 LTC을 지원하지 않습니다.');
+                    return false;
+                }
+            });
+        </script>
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type="text/javascript">
+            $('#form').submit(function() {
+                if($('#coin_id').val() == 'LTC' && $('#exchange_to_id').val() == 'coinone'){
+                    alert('해당거래소에서 LTC을 지원하지 않습니다.');
+                    return false;
+                }
+            });
+        </script>
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type="text/javascript">
+            $('#form').submit(function() {
+                if($('#coin_id').val() == 'LTC' && $('#exchange_from_id').val() == 'korbit'){
+                    alert('해당거래소 API에서 LTC을 지원하지 않습니다.');
+                    return false;
+                }
+            });
+        </script>
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type="text/javascript">
+            $('#form').submit(function() {
+                if($('#coin_id').val() == 'LTC' && $('#exchange_to_id').val() == 'korbit'){
+                    alert('해당거래소 API에서 LTC을 지원하지 않습니다.');
+                    return false;
+                }
+            });
+        </script>
+      </div>
+      <div class="list">
+        <table class="calculator_list" border = "0.5">
+          <tr>
+            <th>코인</th>
+            <th>보내는 거래소</th>
+            <th>출금 금액</th>
+            <th>받는 거래소</th>
+            <th>입금금액</th>
+            <th>차익</th>
+          </tr>
+          {% for list in lists %}
+            <tr>
+              <td>{{ list.coin }}</td>
+              <td>{{ list.coin }}</td>
+              <td>{{ list.coin }}</td>
+              <td>{{ list.coin }}</td>
+              <td>{{ list.coin }}</td>
+              <td>{{ list.coin }}</td>
+            </tr>
+          {% endfor %}
+    </div>
+{% endblock %}

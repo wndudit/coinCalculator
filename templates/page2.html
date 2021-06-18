@@ -1,0 +1,19 @@
+﻿{% extends "layout.html" %}
+<title>{% block title %}Welcome{% endblock %} | 예상 로또 당첨번호</title>
+
+{% block body %}
+    <div class=contents>
+        <div class=topMainNumber>
+            <form action="" method=post>
+                <input type="submit" value="나의 예상당첨번호 받기">
+            </form>
+        </div>
+        <div class=numberBox>
+            <li>{% for number in numbers %}{{number}}    {% endfor %}</li>
+        </div>
+        <div class=eventsList>
+            <h3>금주 예상 당첨번호( {{events}}회 )</h3>
+            <h3>지난 예상 당첨번호</h3>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,48 @@
+﻿<title>{% block title %}Welcome{% endblock %} | MiniTwit</title>
+
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style2.css') }}">
+
+<div class=page>
+	<h1>lottomoney</h1>
+
+	<div class=navigation>
+
+	{% if g.user %}
+
+		<a href="{{ url_for('home') }}">소개글</a> |
+		<a href="{{ url_for('page') }}">나의 당첨번호 받기</a> |
+		<a href="{{ url_for('login') }}">당첨자 확인</a> |
+
+	{% else %}
+		<a href="{{ url_for('home') }}">소개글</a> |
+		<a href="{{ url_for('register') }}">로그인</a> |
+		<a href="{{ url_for('login') }}">로그인</a>
+
+	{% endif %}
+
+	</div>
+
+	{% with flashes = get_flashed_messages() %}
+		{% if flashes %}
+
+			<ul class=flashes>
+			{% for message in flashes %}
+				<li>{{ message }}
+
+			{% endfor %}
+			</ul>
+
+		{% endif %}
+	{% endwith %}
+
+	<div class=body>
+
+	{% block body %}{% endblock %}
+
+	</div>
+
+	<div class=footer>
+		MiniTwit &mdash; A Flask Application
+	</div>
+
+</div>
